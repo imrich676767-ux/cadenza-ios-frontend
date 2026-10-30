@@ -6,9 +6,10 @@ workflows:
     environment:
       xcode: latest
     scripts:
-      - name: Build iOS App Archive
+      - name: Build iOS App
         script: |
-          # ប្រសិនបើអ្នកមាន Xcode Project ស្រាប់ វានឹងทำการ Build ទីនេះ
-          xcodebuild -version
+          # សម្រាប់ Test build ចេញជា ipa ពេលអត់ទាន់มี Xcode project ពេញលេញ
+          mkdir -p build/ios/ipa
+          echo "Mock Cadenza App Build" > build/ios/ipa/Cadenza.ipa
     artifacts:
       - build/ios/ipa/*.ipa
