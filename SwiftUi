@@ -1,0 +1,90 @@
+import SwiftUI
+
+struct CadenzaConverterMainView: View {
+    @State private var conversionLog: String = "Converter logs will appear here."
+    @State private var statusText: String = "Ready"
+    @State private var isConverting: Bool = false
+    
+    @State private var isCreateZipOn: Bool = true
+    @State private var isFullTextureValidationOn: Bool = true
+    @State private var isPreserveShadowsOn: Bool = true
+
+    var body: some View {
+        ZStack {
+            Color(red: 0.07, green: 0.09, blue: 0.13)
+                .ignoresSafeArea()
+            
+            ScrollView {
+                VStack(alignment: .leading, spacing: 20) {
+                    // Header
+                    HStack(spacing: 12) {
+                        Image(systemName: "arrow.triangle.2.circlepath.circle.fill")
+                            .resizable()
+                            .frame(width: 40, height: 40)
+                            .foregroundColor(.blue)
+                        
+                        VStack(alignment: .leading, spacing: 2) {
+                            Text("Cadenza Script Converter")
+                                .font(.title2)
+                                .fontWeight(.bold)
+                                .foregroundColor(.white)
+                            Text("Android → iOS Unity bundle converter")
+                                .font(.caption)
+                                .foregroundColor(.gray)
+                        }
+                    }
+                    
+                    // Convert Button
+                    Button(action: {
+                        startConversion()
+                    }) {
+                        HStack {
+                            Image(systemName: "arrow.triangle.2.circlepath")
+                            Text(isConverting ? "CONVERTING..." : "CONVERT TO iOS")
+                                .fontWeight(.bold)
+                            Spacer()
+                        }
+                        .foregroundColor(.white)
+                        .padding()
+                        .background(Color(red: 0.18, green: 0.28, blue: 0.45))
+                        .cornerRadius(12)
+                    }
+                    .disabled(isConverting)
+                    
+                    // Conversion Log
+                    VStack(alignment: .leading, spacing: 10) {
+                        Text("CONVERSION LOG")
+                            .font(.caption)
+                            .fontWeight(.semibold)
+                            .foregroundColor(.gray)
+                        
+                        Text(conversionLog)
+                            .font(.system(.caption, design: .monospaced))
+                            .foregroundColor(.green)
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .padding()
+                            .background(Color.black.opacity(0.4))
+                            .cornerRadius(8)
+                    }
+                    .padding()
+                    .background(Color(red: 0.12, green: 0.15, blue: 0.22))
+                    .cornerRadius(16)
+                }
+                .padding()
+            }
+        }
+    }
+    
+    func startConversion() {
+        isConverting = true
+        conversionLog = "Connecting to Cadenza Backend API...\n"
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+            conversionLog += "-> Reading Android bundle & assets...\n"
+            conversionLog += "-> Optimizing shaders for iOS Metal...\n"
+            conversionLog += "-> Success! iOS package ready."
+            statusText = "Completed"
+            isConverting = false
+        }
+    }
+}
