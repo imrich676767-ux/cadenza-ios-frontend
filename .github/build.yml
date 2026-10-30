@@ -1,0 +1,28 @@
+name: Build iOS App
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: macos-latest
+
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@v3
+
+    - name: Set up Environment
+      run: |
+        echo "Preparing iOS build environment..."
+        mkdir -p build/ios/ipa
+
+    - name: Create Mock IPA for Testing
+      run: |
+        echo "Cadenza iOS App Mock Build" > build/ios/ipa/Cadenza.ipa
+
+    - name: Upload IPA Artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: Cadenza-IPA
+        path: build/ios/ipa/*.ipa
